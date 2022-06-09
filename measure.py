@@ -6,7 +6,7 @@ p0 = 883
 coeff_p = 0.1499
 coeff_len = 0.0058 # len of step of dvigatel in cm
 step_len = 2*coeff_len # len of step of measure in cm
-len = 4 # full movement in cm
+len = 5 # full movement in cm
 steps = int(len/step_len)
 
 jet.initSpiAdc()
