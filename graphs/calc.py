@@ -25,7 +25,7 @@ def get_q(u_arr, r0):
 # f_name - name of file
 # r0 - r of center
 # p0 - p of zero
-def calc_file(f_name, r0, p0, name):
+def calc_file2(f_name, r0, p0, name, color):
     print(f"{name}: ", end='')
     u_arr =  get_u_arr(f_name, p0)
 
@@ -47,33 +47,64 @@ def calc_file(f_name, r0, p0, name):
     plt.legend(fontsize = 'x-large')
     fig.savefig(f"{name}_graph.png")
 
-    # plt.plot(u_arr)
     plt.show()
     print(get_q(u_arr, r0) * 1000, "g/c")
 
-name_0cm = "jet-data 2022-06-09 0 cm 14_02_29.txt"
-calc_file(name_0cm, 52, -69, "0cm")
+fig, ax = plt.subplots(figsize = (16,10), dpi = 200)
+all_u = []
+all_r = []
 
-name_3cm = "jet-data 2022-06-09 3 cm13_57_26.txt"
-calc_file(name_3cm, 109, -65, "3cm")
+def calc_file(f_name, r0, p0, name, color):
+    x0 = 148
+    u_arr =  get_u_arr(f_name, p0)
+    r_arr = [(r-r0+x0) * coeff_r * 100 for r in range(len(u_arr))]
+    # x = r-r0 + x0
+    all_u.extend(u_arr)
+    all_r.extend(r_arr)
+    ax.plot(r_arr, u_arr, color = color, alpha = 0.5)
 
-exit()
 
-name_6cm = "jet-data 2022-06-09 14_20_17 6cm.txt"
-calc_file(name_6cm, 131, -70, "6cm")
+def build_all_graph():    
+    ax.set_ylim(0, 1.1 * max(all_u))
+    ax.set_xlim(0, 1.1 * max(all_r))
+
+    ax.set_xlabel("Координата, см")
+    ax.set_ylabel("Скорость, м/с")
+    plt.title("Зависимость скорости от координаты", wrap = True)
+
+    ax.minorticks_on()
+    ax.grid(True)
+    ax.grid(True, 'minor', ls=':')
+    fig.savefig(f"s_nas_graph.png")
+    plt.show()
+    
+
+# name_0cm = "jet-data 2022-06-09 0 cm 14_02_29.txt"
+# calc_file(name_0cm, 52, -69, "0cm", 'b')
+
+# name_3cm = "jet-data 2022-06-09 3 cm13_57_26.txt"
+# calc_file(name_3cm, 109, -65, "3cm", 'g')
+
+# # exit()
+
+# name_6cm = "jet-data 2022-06-09 14_20_17 6cm.txt"
+# calc_file(name_6cm, 131, -70, "6cm", 'r')
 
 name_sprite = "jet-data 2022-06-09 14_19_33 sprite2.txt"
-calc_file(name_sprite, 107, -76, "sprite")
+calc_file(name_sprite, 107, -76, "sprite", 'c')
 
 name_shw = "jet-data 2022-06-09 shweps16_51_25.txt"
-calc_file(name_shw, 113, -71, "shweps")
+calc_file(name_shw, 113, -71, "shweps", 'm')
 
 name_kvas = "jet-data 2022-06-09 KVAS 17_03_07.txt"
-calc_file(name_kvas, 110, -68, "kvas")
+calc_file(name_kvas, 110, -68, "kvas", 'y')
 
 name_baklashka = "jet-data 2022-06-09 17_14_46 norm_bakl.txt"
-calc_file(name_baklashka, 126, -72, "baklashka")
+calc_file(name_baklashka, 126, -72, "baklashka", 'k')
 
 name_cut = "jet-data 2022-06-09 17_24_01 cut_bakl.txt"
-calc_file(name_cut, 148, -69, "cut baklashka")
+calc_file(name_cut, 148, -69, "cut baklashka", 'r')
+
+build_all_graph()
+
 
